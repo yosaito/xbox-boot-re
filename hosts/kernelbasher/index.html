@@ -1,0 +1,9 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; connect-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>KernelBasher live boot preview</title><link rel="stylesheet" href="preview.css"></head>
+<body><canvas id="screen" aria-label="Looping Xbox boot animation preview"></canvas>
+<div id="transport"><button id="pause" type="button">Pause</button><button id="restart" type="button">Restart</button><span id="time">Loading…</span></div>
+<p id="status" role="status">Loading the bundled animation…</p>
+<script type="module" src="preview.js"></script></body></html>

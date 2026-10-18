@@ -1,7 +1,9 @@
+> **KernelBasher preview fork.** Forked from [bennyborn/xbox-boot-re](https://github.com/bennyborn/xbox-boot-re). The additional [KernelBasher host](hosts/kernelbasher/README.md) contains the looping preview, live settings, custom X-file mesh adapter and its tests. The original project documentation follows below.
+
 <p align="center"><img src="docs/logo.svg" width="500" alt="xbox-boot-re"></p>
 
-The boot animation of the original Xbox — the glowing blob, the chamber
-around it, the logo that flies in at the end — reconstructed from a single
+The boot animation of the original Xbox â€” the glowing blob, the chamber
+around it, the logo that flies in at the end â€” reconstructed from a single
 BIOS image alone, and rebuilt from that reconstruction as a standalone
 renderer with a WebGPU front end.
 
@@ -62,11 +64,11 @@ shadows, god rays and depth of field.
 
 Everything rests on one BIOS image: `bios_complex_4627_retail.bin` (SHA-256
 `3d5fae186cb31b5a6331155e532ef63e493afd85d7af8576fb52c95d0ce0362c`), the
-1 MB "Complex 4627 Retail (1.0)" image — a modified BIOS, not a stock
-dump — flashed on the author's own (modded) console and dumped from it,
+1 MB "Complex 4627 Retail (1.0)" image â€” a modified BIOS, not a stock
+dump â€” flashed on the author's own (modded) console and dumped from it,
 decrypted with the MCPX key of the same console. No other BIOS version
 was used, and no name, structure or constant
-was taken from memory or from any other documentation of the hardware —
+was taken from memory or from any other documentation of the hardware â€”
 every statement has an address in the binary, a recorded run, or a
 third-party source behind it, listed in `docs/provenance.md`.
 
@@ -87,7 +89,7 @@ node hosts/web/serve.mjs         # http://127.0.0.1:8360/
 | What | Where |
 |---|---|
 | Provenance of every statement | `docs/provenance.md` |
-| Main table address → name → description | `docs/decomp/README.md` |
+| Main table address â†’ name â†’ description | `docs/decomp/README.md` |
 | Narratives per subsystem, the actual specification | `docs/decomp/*.md` |
 | Test vectors from xemu | `docs/vectors/` |
 | Data extracted from the ROM | `data/` |
@@ -122,4 +124,4 @@ the core itself.
 
 Most special thanks to [Pipeworks Studios](https://www.pipeworks.com/) (originally
 Pipeworks Software, Inc.) for the boot animation itself, created back in
-2001 — the thing this whole repository is about.
+2001 â€” the thing this whole repository is about.
