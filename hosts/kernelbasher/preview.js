@@ -73,11 +73,14 @@ class PreviewRenderer extends Renderer {
 
 let stopped=false,paused=false,pending=null,stage=null,last=0,elapsed=0,cycles=0,applied=0;
 const $=id=>document.getElementById(id);
-function fail(error){stopped=true;document.body.classList.add('error');$('status').textContent=`Preview unavailable: ${error.message}. WebView2 and a WebGPU-capable graphics driver are required. BIOS editing is still available.`;}
+function fail(error){stopped=true;document.body.classList.add('error');$('status').textContent=`Preview unavailable: ${error?.message||error}. A WebGPU-capable browser and graphics driver are required. BIOS editing is still available.`;if(window.parent!==window)window.parent.postMessage({type:'preview-error'},location.origin);}
 window.addEventListener('error',e=>fail(e.error||new Error(e.message)));
 window.addEventListener('unhandledrejection',e=>fail(e.reason||new Error('Animation failed')));
 const receive=s=>{const valid=validate(s);if(valid)pending=valid;};
 window.chrome?.webview?.addEventListener('message',e=>receive(e.data));
+// A same-origin web editor uses the identical settings adapter. Only our
+// direct parent may send updates; unrelated windows and origins are ignored.
+window.addEventListener('message',e=>{if(window.parent!==window&&e.source===window.parent&&e.origin===location.origin)receive(e.data);});
 
 function apply(s){
     const {run,renderer,core}=stage,old=renderer.settings;
@@ -120,6 +123,7 @@ async function start(){
     $('status').textContent='Live reference preview · loops silently';
     // Readiness is sent after the listener, WASM, meshes and GPU are all ready.
     window.chrome?.webview?.postMessage('ready');
+    if(window.parent!==window)window.parent.postMessage({type:'preview-ready'},location.origin);
     render();requestAnimationFrame(frame);
     // Explicit browser test mode only, absent in the packaged navigation URL.
     if(new URLSearchParams(location.search).has('test'))window.previewTest={

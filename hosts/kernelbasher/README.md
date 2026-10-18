@@ -5,12 +5,14 @@ It builds on [bennyborn/xbox-boot-re](https://github.com/bennyborn/xbox-boot-re)
 at `12a3396aa77f72c8d2fd94c0988c7e11539b47e7`. The upstream C core and web
 renderer stay unchanged. The adapter adds live colours, radius, camera and
 wireframe settings, custom lettering meshes, Torn-X geometry, silent looping,
-and a WebView2 settings bridge.
+and WebView2 / same-origin iframe settings bridges.
 
 The files `index.html`, `preview.css`, `preview.js`, `settings.js`, `xboot.wasm`
-and `xboot.wasm.sha256` match KernelBasher's `src/preview/` snapshot at commit
-`b068b018f3147a9bcfaa96ac6390e1b864b3de3a`. Native dialog hosting and BIOS
-patching belong to the KernelBasher repository.
+and `xboot.wasm.sha256` are shared with KernelBasher's `src/preview/` snapshot.
+The initial desktop integration came from commit
+`b068b018f3147a9bcfaa96ac6390e1b864b3de3a`; the iframe bridge also serves the
+web editor. Native dialog hosting and BIOS patching belong to the KernelBasher
+repository.
 
 ## Build and run
 
@@ -24,6 +26,12 @@ python -m http.server 8361 --bind 127.0.0.1 --directory out/kernelbasher
 Open `http://localhost:8361/` in a WebGPU-capable browser. The WebView2 host
 sends settings as JSON messages; the standalone page initially uses defaults.
 No BIOS file or server-side patcher is needed for the preview.
+
+An embedding page on the same origin can send the same settings object with
+`iframe.contentWindow.postMessage(settings, location.origin)`. The renderer
+accepts messages only from its direct parent on that origin, and posts
+`{type: 'preview-ready'}` after initialization or `{type: 'preview-error'}` if
+rendering fails. WebView2 continues to use its existing message bridge.
 
 The normal build verifies the supplied WASM and upstream data-pack hashes.
 To rebuild the WASM, set `XBOOT_CLANG` to LLVM clang and run:
